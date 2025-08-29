@@ -1,10 +1,16 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Move : MonoBehaviour
 {
+    private static readonly int hashMove = Animator.StringToHash("Move");
+
     public float moveSpeed = 5f; // 이동 속도
-    private Animator animator;
+    public float rotateSpeed = 180f;
+
     private Rigidbody rb;
+    private PlayerInput input;
+    private Animator animator;
 
     private Vector3 movement;
     private Camera mainCam;
@@ -13,6 +19,7 @@ public class Move : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        input = GetComponent<PlayerInput>();
         mainCam = Camera.main;
     }
 
