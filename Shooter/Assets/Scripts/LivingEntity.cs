@@ -33,6 +33,7 @@ public class LivingEntity : MonoBehaviour, IDamagable
         }
 
         IsDead = true;
+
         OnDeath?.Invoke();
     }
 }

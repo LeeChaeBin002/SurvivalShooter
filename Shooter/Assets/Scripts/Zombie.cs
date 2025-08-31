@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Zombie: LivingEntity
 {
@@ -11,8 +12,17 @@ public class Zombie: LivingEntity
         Attack,
         Die,
     }
+    public enum ZombieType
+    {
+        Normal,
+        Boss
+    }
+    public ZombieType zombieType = ZombieType.Normal;//좀비 종류
 
     private Status currentStatus;
+
+
+
 
     public Status CurrentStatus
     {
@@ -178,6 +188,13 @@ public class Zombie: LivingEntity
         var colider = GetComponent<CapsuleCollider>();
         if (colider != null)
             colider.enabled = false;
+        int socoreToAdd = (zombieType == ZombieType.Boss) ? 50 : 10;
+
+        var uiManager = FindAnyObjectByType<UiManager>();
+        if(uiManager!=null)
+        {
+            uiManager.AddScore(socoreToAdd);
+        }
 
     }
     public LayerMask targetLayer;
