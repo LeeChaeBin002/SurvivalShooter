@@ -35,7 +35,7 @@ public class Gun : MonoBehaviour
 
 
     public GunData gunData;
-
+    public AudioClip shootClip;
     private LineRenderer lineRenderer;
     private AudioSource audioSource;
     public int ammoRemain;
@@ -68,7 +68,7 @@ public class Gun : MonoBehaviour
     private IEnumerator CoShotEffet(Vector3 hitPosition)
     {
         gunParticles.Play();
-        //audioSource.PlayOneShot(gunData.shootClip);
+        audioSource.PlayOneShot(gunData.shootClip);
 
         //빔
         lineRenderer.enabled = true;

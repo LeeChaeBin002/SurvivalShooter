@@ -6,7 +6,7 @@ public class UiManager : MonoBehaviour
 {
     public Text pausetext;
     public Text pausedtext;
-    public Text scoretext;
+    public Text scoreText;
 
     public GameObject gameOverUi;
 
@@ -21,7 +21,7 @@ public class UiManager : MonoBehaviour
    
     public void SetUpdateScore(int score)
     {
-        //scoreText.text = $"Score:{score:N0}";
+        scoreText.text = $"Score:{score:N0}";
     }
     public void AddScore(int value)
     {
