@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem.HID;
 
 
-public class PlayerHealth : LivingEntity
+public class PlayerHealth : LivingEntity, IDamagable
 {
     private HUD hud;
     public GameOverUI gameOverUI;
@@ -13,9 +13,13 @@ public class PlayerHealth : LivingEntity
     public AudioClip DeathClip;
     public AudioClip HitClip;
 
+    public Image damageFlashImage;       // 빨간 이미지 (Inspector에 Drag & Drop)
+    public Color flashColor = new Color(1f, 49f, 49f, 0.5f); // 빨간색, 알파 0.5
+    public float flashDuration = 0.2f;   // 깜빡이는 시간
+
+    public float damage = 10f;
     private AudioSource audioSource;
     private Animator animator;
-
     private Move movement;
     private PlayerShooter shooter;
 
@@ -48,7 +52,7 @@ public class PlayerHealth : LivingEntity
 
     private void Update()
     {
-        
+
     }
     public override void OnDamage(float damage, Vector3 hitpoint, Vector3 hitNormal)
     {
@@ -59,6 +63,19 @@ public class PlayerHealth : LivingEntity
             return;
         }
         audioSource.PlayOneShot(HitClip);
+        StartCoroutine(FlashDamage());
+    }
+    private System.Collections.IEnumerator FlashDamage()
+    {
+        if (damageFlashImage != null)
+        {
+            // 알파 적용된 빨간색으로 설정
+            damageFlashImage.color = flashColor;
+            yield return new WaitForSeconds(flashDuration);
+
+            // 다시 투명으로
+            damageFlashImage.color = Color.clear;
+        }
     }
 
     protected override void Die()
@@ -71,10 +88,11 @@ public class PlayerHealth : LivingEntity
 
         movement.enabled = false;
         //shooter.enabled = false;
+        gameOverUI.gameObject.SetActive(true);
         gameOverUI?.ShowGameOver();
         fillImage.fillAmount = 0f;
         // 게임 일시정지
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
     }
     public void Heal(int amount)
     {
@@ -85,5 +103,7 @@ public class PlayerHealth : LivingEntity
     {
         // 현재 씬 다시 로드
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
     }
+
 }
