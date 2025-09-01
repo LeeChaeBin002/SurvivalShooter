@@ -6,19 +6,27 @@ public class UiManager : MonoBehaviour
 {
     public GameObject pausePanel;
     private bool isPaused = false;
-    public Text resumetext;
+    public Button resumeButton;
     public Text pausedtext;
     public Text scoreText;
 
     //public GameObject gameOverUi;
 
     private int score = 0;
-
+    private void Start()
+    {
+        pausePanel.SetActive(false); // 시작할 때 딱 한 번만 꺼줌
+        resumeButton.onClick.AddListener(OnClickResume);
+        SetUpdateScore(0);
+    }
     public void OnEnable()
     {
-        SetUpdateScore(0);
-        
-        SetActiveGameOverUi(false);
+       
+       
+    }
+    public void OnClickResume()
+    {
+        TogglePause(); // 다시 게임 진행
     }
     private void Update()
     {
@@ -33,11 +41,14 @@ public class UiManager : MonoBehaviour
 
         if (isPaused)
         {
+            
             Time.timeScale = 0f; // 게임 멈춤
             pausePanel.SetActive(true);
+            
         }
         else
         {
+            
             Time.timeScale = 1f; // 게임 재개
             pausePanel.SetActive(false);
         }
