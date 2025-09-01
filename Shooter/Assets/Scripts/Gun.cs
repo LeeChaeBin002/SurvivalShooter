@@ -59,7 +59,7 @@ public class Gun : MonoBehaviour
     void Update()
     {
      
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetMouseButton(0))
         {
             Fire();
         }
@@ -86,7 +86,7 @@ public class Gun : MonoBehaviour
             CurrentState = State.Empty;
             return;
         }
-        if (currentState == State.Ready && Time.time > lastFireTime + 0.05f)//발사간격 0.1f
+        if (currentState == State.Ready && Time.time > lastFireTime + 0.1f)
         {
             lastFireTime = Time.time;
             Shoot();

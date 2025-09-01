@@ -4,11 +4,13 @@ using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
-    public Text pausetext;
+    public GameObject pausePanel;
+    private bool isPaused = false;
+    public Text resumetext;
     public Text pausedtext;
     public Text scoreText;
 
-    public GameObject gameOverUi;
+    //public GameObject gameOverUi;
 
     private int score = 0;
 
@@ -18,7 +20,28 @@ public class UiManager : MonoBehaviour
         
         SetActiveGameOverUi(false);
     }
-   
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
+        }
+    }
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+
+        if (isPaused)
+        {
+            Time.timeScale = 0f; // 게임 멈춤
+            pausePanel.SetActive(true);
+        }
+        else
+        {
+            Time.timeScale = 1f; // 게임 재개
+            pausePanel.SetActive(false);
+        }
+    }
     public void SetUpdateScore(int score)
     {
         scoreText.text = $"Score:{score:N0}";
@@ -32,7 +55,7 @@ public class UiManager : MonoBehaviour
 
     public void SetActiveGameOverUi(bool active)
     {
-        gameOverUi.SetActive(active);
+        pausePanel.SetActive(active);
     }
 
     public void OnClickRestart()
